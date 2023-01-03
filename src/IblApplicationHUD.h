@@ -101,7 +101,8 @@ class IBLApplicationHUD : public RenderHUD
     bool                       _brdfEnabled;
     bool                       _showFiltering;
     bool                       _filteringEnabled;
-
+    bool                       _showMaterial;
+    bool                       _materialEnabled;
     int32_t                    _scrollArea;
 };
 }

@@ -545,11 +545,39 @@ IBLApplicationHUD::render(const Ctr::Camera* camera)
 
             imguiUnindent();
         }
+        imguiRegionBorder("Material:", NULL, _showMaterial, _materialEnabled);
+        if (_showMaterial) {
+            Ctr::Entity* entity = _iblApplication->visualizedEntity();
+            if (_iblApplication->modelVisualizationProperty()->get() == Ctr::IBLApplication::ShaderBallModel)
+                entity = _iblApplication->shaderBallEntity();
 
+            Ctr::Material* materialIns = entity->mesh(0)->material();
 
-        //static float blah[3] = {0.0, 1.0, 1.0};
-        //static bool activated = true;
-        //imguiColorWheel("Diffuse color:", blah, activated);
+            imguiImage(const_cast<ITexture*>(materialIns
+                ->albedoMap()), 0, 128, 128, ImguiAlign::Center);
+            std::string albedo = materialIns->albedoMapPath();
+            const char* albedo_tex = albedo.c_str();
+            char path[128] = "";
+            strncpy_s(path, albedo_tex, 128);
+            imguiInput("Albedo", path,128,true, ImguiAlign::Left);
+
+            imguiImage(const_cast<ITexture*>(materialIns
+                ->normalMap()), 0, 128, 128, ImguiAlign::Center);
+            std::string normal = materialIns->normalMapPath();
+            const char* normal_tex = normal.c_str();
+           // char path[128] = "";
+            strncpy_s(path, normal_tex, 128);
+            imguiInput("Normal", path, 128, true, ImguiAlign::Left);
+
+            imguiImage(const_cast<ITexture*>(materialIns
+                ->specularRMCMap()), 0, 128, 128, ImguiAlign::Center);
+            std::string specular = materialIns->specularRMCMapPath();
+            const char* specular_tex = specular.c_str();
+           // char path[128] = "";
+            strncpy_s(path, specular_tex, 128);
+            imguiInput("Specular", path, 128, true, ImguiAlign::Left);
+
+        }
 
         imguiRegionBorder("Filtering:", NULL, _showFiltering, _filteringEnabled);
         if (_showFiltering)
